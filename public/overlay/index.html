@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Stream Overlay</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.socket.io/4.6.0/socket.io.min.js"
+    integrity="sha384-c79GN5VsunZvi+Q/WObgk2in0CbZsHnjEqvFxC5DxHn9lTfNce2WW6h2pH6u/kF+" crossorigin="anonymous"></script>
+  <script src="js/socket.js"></script>
+  <!-- <style>
+    body {
+      padding: 0;
+      margin: 0;
+      background-color: #1b1b1b;
+    }
+  </style> -->
+</head>
+
+<body>
+  <header>
+    <h1>Welcome to my Page</h1>
+    <nav>
+      <ul>
+        <li><a href="#">Home</a></li>
+        <li><a href="#">About</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <p>This is the main content of my page.</p>
+
+    <audio
+      id="alarm"
+      
+      preload="auto"
+      src="media/alarm.mp3"
+      type="audio/mp3"
+    ></audio>
+    <button id="play-alarm" onclick="playAlarm();">Alarm</button>
+
+    <br />
+    <hr />
+    <audio controls preload="auto">
+      <source src="media/bell-hop-bell.mp3" type="audio/mp3" />
+    </audio>
+  </main>
+
+  <footer>
+    <p>Copyright &copy; 2021. All rights reserved.</p>
+  </footer>
+
+</body>
+
+</html>
