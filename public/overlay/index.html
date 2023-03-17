@@ -8,30 +8,32 @@
   <script src="https://cdn.socket.io/4.6.0/socket.io.min.js"
     integrity="sha384-c79GN5VsunZvi+Q/WObgk2in0CbZsHnjEqvFxC5DxHn9lTfNce2WW6h2pH6u/kF+" crossorigin="anonymous"></script>
   <script src="js/socket.js"></script>
-  <!-- <style>
-    body {
-      padding: 0;
-      margin: 0;
-      background-color: #1b1b1b;
+  <script src="js/random-emoji.js"></script>
+  <style>
+    .orb {
+      background-color: lightgrey;
+      position: relative;
+      height: 100px;
+      width: 100px;
     }
-  </style> -->
+
+    .orb:hover {
+      background-color: skyblue;
+      cursor: move;
+    }
+
+    .orb:active {
+      background-color: tomato;
+    }
+  </style>
 </head>
 
 <body>
   <header>
-    <h1>Welcome to my Page</h1>
-    <nav>
-      <ul>
-        <li><a href="#">Home</a></li>
-        <li><a href="#">About</a></li>
-        <li><a href="#">Contact</a></li>
-      </ul>
-    </nav>
+    <h1>Stream Overlay</h1>
   </header>
 
   <main>
-    <p>This is the main content of my page.</p>
-
     <audio
       id="alarm"
       
@@ -41,15 +43,17 @@
     ></audio>
     <button id="play-alarm" onclick="playAlarm();">Alarm</button>
 
-    <br />
-    <hr />
-    <audio controls preload="auto">
-      <source src="media/bell-hop-bell.mp3" type="audio/mp3" />
-    </audio>
+    <button id="new-box>" onclick="newBox();">New Box</button>
+
+    <div id="orb" class="orb"></div>
+
+    <!-- an input field to add a label to the box -->
+    <input type="text" id="label" placeholder="Label">
+
   </main>
 
   <footer>
-    <p>Copyright &copy; 2021. All rights reserved.</p>
+    <p>Copyright &copy; 2023. All rights reserved.</p>
   </footer>
 
 </body>
