@@ -14,6 +14,15 @@ const playAlarm = () => {
   socket.emit('play', { sound: 'alarm.mp3' });
 };
 
+const playBell = () => {
+  // const audio = new Audio('media/alarm.mp3');
+  const audio = document.getElementById("bell");
+  audio.play();
+
+  // send play event to server
+  // socket.emit('play', { sound: 'bell.mp3' });
+};
+
 socket.on('play', (data) => {
   console.log(data);
   // play sound from local file
@@ -21,18 +30,54 @@ socket.on('play', (data) => {
   audio.play();
 });
 
+function startTimer(duration, display) {
+  var timer = duration, minutes, seconds;
+  const interval = setInterval(function () {
+    minutes = parseInt(timer / 60, 10);
+    seconds = parseInt(timer % 60, 10);
+
+    minutes = minutes < 10 ? "0" + minutes : minutes;
+    seconds = seconds < 10 ? "0" + seconds : seconds;
+
+    display.textContent = minutes + ":" + seconds;
+
+    if (--timer < 0) {
+      display.textContent = 'done!'
+      playBell();
+      clearInterval(interval);
+    }
+  }, 1000);
+}
 
 const newBox = () => {
   // get text from input or default to a random emoji
   const text = document.getElementById('label').value || randomEmoji();
   // clear the input
   document.getElementById('label').value = '';
-
-
+  
+  
+  // get the value from the timer input
+  const timer = document.getElementById('timer').value || null;
+  // clear the input
+  document.getElementById('timer').value = '';
 
   const box = document.createElement('div');
   box.classList.add('orb');
-  box.innerHTML = text;
+
+
+  const para = document.createElement("p");
+  const node = document.createTextNode(text);
+  para.appendChild(node);
+  box.appendChild(para);
+
+  // set the timer if it exists
+  if (timer) {
+    const timerDisplay = document.createElement('div');
+    timerDisplay.classList.add('timer');
+    box.appendChild(timerDisplay);
+    startTimer(timer, timerDisplay);
+  }
+
   box.style.left = 0;
   box.style.top = 0;
   document.body.appendChild(box);
