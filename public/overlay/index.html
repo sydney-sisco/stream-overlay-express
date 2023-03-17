@@ -10,6 +10,11 @@
   <script src="js/socket.js"></script>
   <script src="js/random-emoji.js"></script>
   <style>
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      /* margin: 0; */
+      user-select: none;
+    }
     .orb {
       background-color: lightgrey;
       position: relative;
@@ -24,6 +29,17 @@
 
     .orb:active {
       background-color: tomato;
+    }
+
+    .dropzone {
+      background-color: lightgrey;
+      position: relative;
+      height: 50px;
+      width: 100px;
+    }
+    .dropzone:hover {
+      background-color: skyblue;
+      cursor: move;
     }
   </style>
 </head>
@@ -59,6 +75,11 @@
 
     <!-- an input field to add a timer to the box -->
     <input type="number" id="timer" placeholder="Timer">
+
+    <!-- an area to drop a box to delete it -->
+    <div class="dropzone" id="droptarget">
+      Drag a box here to delete
+    </div>
 
   </main>
 

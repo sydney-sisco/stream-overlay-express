@@ -3,10 +3,15 @@ const socket = io();
 
 window.onload = () => {
   draggable(document.getElementById('orb'));
+
+  const target = document.getElementById("droptarget");
+  target.addEventListener("dragover", (event) => {
+    // prevent default to allow drop
+    event.preventDefault();
+  });
 };
 
 const playAlarm = () => {
-  // const audio = new Audio('media/alarm.mp3');
   const audio = document.getElementById("alarm");
   audio.play();
 
@@ -15,12 +20,8 @@ const playAlarm = () => {
 };
 
 const playBell = () => {
-  // const audio = new Audio('media/alarm.mp3');
   const audio = document.getElementById("bell");
   audio.play();
-
-  // send play event to server
-  // socket.emit('play', { sound: 'bell.mp3' });
 };
 
 socket.on('play', (data) => {
@@ -84,11 +85,6 @@ const newBox = () => {
   draggable(box);
 };
 
-/**
- * Makes an element draggable.
- *
- * @param {HTMLElement} element - The element.
- */
 function draggable(element) {
   var isMouseDown = false;
 
@@ -112,6 +108,11 @@ function draggable(element) {
     mouseX = event.clientX;
     mouseY = event.clientY;
     isMouseDown = true;
+
+    // check if the element is dropped on the target
+    // const target = document.getElementById("droptarget");
+
+  
   }
 
   // mouse button released
@@ -126,6 +127,12 @@ function draggable(element) {
     isMouseDown = false;
     elementX = parseInt(element.style.left) || 0;
     elementY = parseInt(element.style.top) || 0;
+
+    const { x, y, width, height } = document.getElementById('droptarget').getBoundingClientRect();
+    if (event.clientX > x && event.clientX < x + width && event.clientY > y && event.clientY < y + height) {
+      // delete the box
+      element.remove();
+    }
   }
 
   // need to attach to the entire document
@@ -133,13 +140,9 @@ function draggable(element) {
   // this ensures the element keeps up with the mouse
   document.addEventListener('mousemove', onMouseMove);
 
-  /**
-   * Listens to `mousemove` event.
-   *
-   * @param {Object} event - The event.
-   */
   function onMouseMove(event) {
     if (!isMouseDown) return;
+    
     var deltaX = event.clientX - mouseX;
     var deltaY = event.clientY - mouseY;
     element.style.left = elementX + deltaX + 'px';
