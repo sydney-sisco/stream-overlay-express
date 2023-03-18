@@ -1,5 +1,11 @@
 const socket = io();
 
+const boxes = [
+  { top: 60, left: 0, title: '↘️', id: '0' },
+  { top: 60, left: 640, title: '↙️', id: '1' },
+  { top: 480, left: 0, title: '↗️', id: '2' },
+  { top: 480, left: 640, title: '↖️', id: '3' }
+]
 
 window.onload = () => {
   draggable(document.getElementById('orb'));
@@ -9,6 +15,12 @@ window.onload = () => {
     // prevent default to allow drop
     event.preventDefault();
   });
+
+  // create the boxes
+  boxes.forEach((box) => {
+    newBox(box.left, box.top, box.title);
+  });
+
 };
 
 const playAlarm = () => {
@@ -50,7 +62,32 @@ function startTimer(duration, display) {
   }, 1000);
 }
 
-const newBox = () => {
+const newBox = (x, y, title, duration) => {
+  const box = document.createElement('div');
+  box.classList.add('orb');
+
+
+  const para = document.createElement("p");
+  para.classList.add('orb-label');
+  const node = document.createTextNode(title);
+  para.appendChild(node);
+  box.appendChild(para);
+
+  // set the timer if it exists
+  if (duration) {
+    const timerDisplay = document.createElement('div');
+    timerDisplay.classList.add('timer');
+    box.appendChild(timerDisplay);
+    startTimer(duration, timerDisplay);
+  }
+
+  box.style.left = `${x || 0}px`;
+  box.style.top = `${y || 0}px`
+  document.body.appendChild(box);
+  draggable(box); 
+};
+
+const newBoxHandler = () => {
   // get text from input or default to a random emoji
   const text = document.getElementById('label').value || randomEmoji();
   // clear the input
@@ -67,6 +104,7 @@ const newBox = () => {
 
 
   const para = document.createElement("p");
+  para.classList.add('orb-label');
   const node = document.createTextNode(text);
   para.appendChild(node);
   box.appendChild(para);

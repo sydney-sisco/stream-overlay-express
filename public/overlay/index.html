@@ -16,10 +16,12 @@
       user-select: none;
     }
     .orb {
-      background-color: lightgrey;
       position: relative;
-      height: 100px;
-      width: 100px;
+      border: 1px dashed gray;
+      background-color: white;
+      padding: 0.5rem 1rem;
+      cursor: move;
+      width: fit-content;
     }
 
     .orb:hover {
@@ -29,6 +31,10 @@
 
     .orb:active {
       background-color: tomato;
+    }
+
+    .orb-label {
+      margin: 0;
     }
 
     .dropzone {
@@ -66,7 +72,7 @@
     ></audio>
     <button id="play-alarm" onclick="playAlarm();">Alarm</button>
 
-    <button id="new-box>" onclick="newBox();">New Box</button>
+    <button id="new-box>" onclick="newBoxHandler();">New Box</button>
 
     <div id="orb" class="orb"></div>
 
