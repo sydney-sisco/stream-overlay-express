@@ -12,12 +12,10 @@
   <style>
     body {
       font-family: Arial, Helvetica, sans-serif;
-      /* margin: 0; */
       user-select: none;
-      /* width: 100vw;
-      height: 100vh; */
       position: relative;
     }
+
     .orb {
       position: absolute;
       border: 1px dashed gray;
@@ -78,12 +76,8 @@
 
     <button id="new-box>" onclick="newBoxHandler();">New Box</button>
 
-    <div id="orb" class="orb"></div>
-
-    <!-- an input field to add a label to the box -->
     <input type="text" id="label" placeholder="Label">
 
-    <!-- an input field to add a timer to the box -->
     <input type="number" id="timer" placeholder="Timer">
 
     <!-- an area to drop a box to delete it -->
@@ -94,11 +88,6 @@
   </main>
 
   <div id="boxes"></div>
-
-  <footer>
-    <p>Copyright &copy; 2023. All rights reserved.</p>
-  </footer>
-
 </body>
 
 </html>

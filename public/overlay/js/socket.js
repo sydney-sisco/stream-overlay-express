@@ -1,15 +1,13 @@
 const socket = io();
 
 const boxes = [
-  { top: 60, left: 0, title: '↘️', id: '0' },
-  { top: 60, left: 640, title: '↙️', id: '1' },
-  { top: 480, left: 0, title: '↗️', id: '2' },
-  { top: 480, left: 640, title: '↖️', id: '3' }
+  { top: 160, left: 1, title: '↘️', id: '0' },
+  { top: 160, left: 640, title: '↙️', id: '1' },
+  { top: 580, left: 1, title: '↗️', id: '2' },
+  { top: 580, left: 640, title: '↖️', id: '3' }
 ]
 
 window.onload = () => {
-  draggable(document.getElementById('orb'));
-
   const target = document.getElementById("droptarget");
   target.addEventListener("dragover", (event) => {
     // prevent default to allow drop
@@ -20,7 +18,6 @@ window.onload = () => {
   boxes.forEach((box) => {
     newBox(box.left, box.top, box.title);
   });
-
 };
 
 const playAlarm = () => {
@@ -82,10 +79,10 @@ const newBox = (x, y, title, duration) => {
     startTimer(duration, timerDisplay);
   }
 
-  box.style.left = `${x || 0}px`;
-  box.style.top = `${y || 0}px`
+  box.style.left = `${x || 130}px`;
+  box.style.top = `${y || 86}px`
   document.body.appendChild(box);
-  draggable(box, x || 0, y || 0);
+  draggable(box, x || 130, y || 86);
 };
 
 const newBoxHandler = () => {
