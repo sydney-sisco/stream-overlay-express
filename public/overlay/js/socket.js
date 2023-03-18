@@ -56,6 +56,7 @@ function startTimer(duration, display) {
 
     if (--timer < 0) {
       display.textContent = 'done!'
+      display.style.color = 'red';
       playBell();
       clearInterval(interval);
     }
@@ -69,7 +70,7 @@ const newBox = (x, y, title, duration) => {
 
   const para = document.createElement("p");
   para.classList.add('orb-label');
-  const node = document.createTextNode(title);
+  const node = document.createTextNode(title || randomEmoji());
   para.appendChild(node);
   box.appendChild(para);
 
@@ -89,7 +90,7 @@ const newBox = (x, y, title, duration) => {
 
 const newBoxHandler = () => {
   // get text from input or default to a random emoji
-  const text = document.getElementById('label').value || randomEmoji();
+  const text = document.getElementById('label').value;
   // clear the input
   document.getElementById('label').value = '';
   
@@ -103,15 +104,16 @@ const newBoxHandler = () => {
 };
 
 function draggable(element, initialX, initialY) {
-  var isMouseDown = false;
+  let isMouseDown = false;
+  let moved = false;
 
   // initial mouse X and Y for `mousedown`
-  var mouseX;
-  var mouseY;
+  let mouseX;
+  let mouseY;
 
   // element X and Y before and after move
-  var elementX = initialX || 0;
-  var elementY = initialY || 0;
+  let elementX = initialX || 0;
+  let elementY = initialY || 0;
 
   // mouse button down over the element
   element.addEventListener('mousedown', (event) => {
@@ -126,6 +128,13 @@ function draggable(element, initialX, initialY) {
     elementX = parseInt(element.style.left) || 0;
     elementY = parseInt(element.style.top) || 0;
 
+    // if the element was not moved, play the alarm
+    if (!moved) {
+      playBell();
+    }
+
+    moved = false;
+
     const { x, y, width, height } = document.getElementById('droptarget').getBoundingClientRect();
     if (event.clientX > x && event.clientX < x + width && event.clientY > y && event.clientY < y + height) {
       // delete the box
@@ -138,6 +147,7 @@ function draggable(element, initialX, initialY) {
   // this ensures the element keeps up with the mouse
   document.addEventListener('mousemove', (event) => {
     if (!isMouseDown) return;
+    moved = true;
     
     var deltaX = event.clientX - mouseX;
     var deltaY = event.clientY - mouseY;
