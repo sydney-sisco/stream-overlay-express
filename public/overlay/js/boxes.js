@@ -51,16 +51,9 @@ function startTimer(duration, display) {
   }, 1000);
 }
 
-const newBox = ({top, left, title, duration} ) => {
-
-  // const boxData = {
-  //   left: x || 130,
-  //   top: y || 86,
-  //   title: title || randomEmoji(),
-  //   duration,
-  // }
-
+const newBox = ({top, left, title, duration, id} ) => {
   const box = document.createElement('div');
+  box.id = id;
   box.classList.add('orb');
 
 
@@ -82,8 +75,6 @@ const newBox = ({top, left, title, duration} ) => {
   box.style.top = `${top}px`
   document.body.appendChild(box);
   draggable(box, left, top);
-  console.log('boxData', { top, left, title, duration });
-  
 };
 
 const newBoxHandler = () => {
@@ -105,7 +96,7 @@ const newBoxHandler = () => {
     duration,
   }
 
-  newBox(boxData);
+  // newBox(boxData);
   socket.emit('addBox', boxData);
 };
 
@@ -145,6 +136,7 @@ function draggable(element, initialX, initialY) {
     if (event.clientX > x && event.clientX < x + width && event.clientY > y && event.clientY < y + height) {
       // delete the box
       element.remove();
+      socket.emit('deleteBox', { id: element.id })
     }
   });
 

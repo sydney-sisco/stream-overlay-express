@@ -1,4 +1,4 @@
-
+const { v4: uuidv4 } = require('uuid');
 
 // assign a random color to each socket
 let colorIndex = 0;
@@ -31,7 +31,8 @@ module.exports = function (io) {
   
     socket.on("addBox", (message) => {
       console.log("addBox: ", message);
-      socket.broadcast.emit("addBox", message);
+      const boxId = uuidv4(); // generate a unique id for the box
+      io.emit("addBox", { ...message, id: boxId });
     });
   
     socket.on("deleteBox", (message) => {
