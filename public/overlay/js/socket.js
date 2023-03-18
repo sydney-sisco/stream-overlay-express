@@ -16,7 +16,7 @@ window.onload = () => {
     event.preventDefault();
   });
 
-  // create the boxes
+  // create the initial boxes
   boxes.forEach((box) => {
     newBox(box.left, box.top, box.title);
   });
@@ -84,7 +84,7 @@ const newBox = (x, y, title, duration) => {
   box.style.left = `${x || 0}px`;
   box.style.top = `${y || 0}px`
   document.body.appendChild(box);
-  draggable(box); 
+  draggable(box, x || 0, y || 0);
 };
 
 const newBoxHandler = () => {
@@ -99,31 +99,10 @@ const newBoxHandler = () => {
   // clear the input
   document.getElementById('timer').value = '';
 
-  const box = document.createElement('div');
-  box.classList.add('orb');
-
-
-  const para = document.createElement("p");
-  para.classList.add('orb-label');
-  const node = document.createTextNode(text);
-  para.appendChild(node);
-  box.appendChild(para);
-
-  // set the timer if it exists
-  if (timer) {
-    const timerDisplay = document.createElement('div');
-    timerDisplay.classList.add('timer');
-    box.appendChild(timerDisplay);
-    startTimer(timer, timerDisplay);
-  }
-
-  box.style.left = 0;
-  box.style.top = 0;
-  document.body.appendChild(box);
-  draggable(box);
+  newBox(0, 0, text, timer);
 };
 
-function draggable(element) {
+function draggable(element, initialX, initialY) {
   var isMouseDown = false;
 
   // initial mouse X and Y for `mousedown`
@@ -131,37 +110,18 @@ function draggable(element) {
   var mouseY;
 
   // element X and Y before and after move
-  var elementX = 0;
-  var elementY = 0;
+  var elementX = initialX || 0;
+  var elementY = initialY || 0;
 
   // mouse button down over the element
-  element.addEventListener('mousedown', onMouseDown);
-
-  /**
-   * Listens to `mousedown` event.
-   *
-   * @param {Object} event - The event.
-   */
-  function onMouseDown(event) {
+  element.addEventListener('mousedown', (event) => {
     mouseX = event.clientX;
     mouseY = event.clientY;
     isMouseDown = true;
-
-    // check if the element is dropped on the target
-    // const target = document.getElementById("droptarget");
-
-  
-  }
+  });
 
   // mouse button released
-  element.addEventListener('mouseup', onMouseUp);
-
-  /**
-   * Listens to `mouseup` event.
-   *
-   * @param {Object} event - The event.
-   */
-  function onMouseUp(event) {
+  element.addEventListener('mouseup', (event) => {
     isMouseDown = false;
     elementX = parseInt(element.style.left) || 0;
     elementY = parseInt(element.style.top) || 0;
@@ -171,19 +131,17 @@ function draggable(element) {
       // delete the box
       element.remove();
     }
-  }
+  });
 
   // need to attach to the entire document
   // in order to take full width and height
   // this ensures the element keeps up with the mouse
-  document.addEventListener('mousemove', onMouseMove);
-
-  function onMouseMove(event) {
+  document.addEventListener('mousemove', (event) => {
     if (!isMouseDown) return;
     
     var deltaX = event.clientX - mouseX;
     var deltaY = event.clientY - mouseY;
-    element.style.left = elementX + deltaX + 'px';
-    element.style.top = elementY + deltaY + 'px';
-  }
+    element.style.left = Math.max(elementX + deltaX, 0) + 'px';
+    element.style.top = Math.max(elementY + deltaY, 0) + 'px';
+  });
 }
