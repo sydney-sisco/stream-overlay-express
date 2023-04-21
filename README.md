@@ -8,6 +8,10 @@ Start the app:
 
 `npm run start`
 
+Forward the port with ngrok:
+
+`ngrok http 3000`
+
 ## Development
 
 `npm run debug`
