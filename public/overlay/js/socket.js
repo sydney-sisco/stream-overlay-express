@@ -19,3 +19,12 @@ socket.on('deleteBox', (boxData) => {
     box.remove();
   }
 });
+
+socket.on('moveBox', ({left, top, id}) => {
+  console.log('moveBox', { left, top, id });
+  const box = document.getElementById(id);
+  if (box) {
+    box.style.left = left + 'px';
+    box.style.top = top + 'px';
+  }
+});
