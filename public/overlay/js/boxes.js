@@ -32,23 +32,31 @@ const playBell = () => {
 };
 
 function startTimer(durationInMinutes, display) {
-  var timer = durationInMinutes * 60, minutes, seconds; // Convert minutes to seconds
-  const interval = setInterval(function () {
-    minutes = parseInt(timer / 60, 10);
-    seconds = parseInt(timer % 60, 10);
+  const timerStart = new Date().getTime();
 
-    minutes = minutes < 10 ? "0" + minutes : minutes;
-    seconds = seconds < 10 ? "0" + seconds : seconds;
+  const durationInSeconds = durationInMinutes * 60;
 
-    display.textContent = minutes + ":" + seconds;
+  function updateTimer() {
+    const currentTime = new Date().getTime();
+    const elapsedTime = (currentTime - timerStart) / 1000;
+    const remainingTime = durationInSeconds - elapsedTime;
+    const timer = Math.floor(remainingTime);
 
-    if (--timer < 0) {
+    if (timer < 0) {
       display.textContent = 'done!'
       display.style.color = 'red';
       playBell();
-      clearInterval(interval);
+      return;
     }
-  }, 1000);
+
+    const minutes = Math.floor(timer / 60);
+    const seconds = timer % 60;
+    display.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+
+    setTimeout(updateTimer, 1000);
+  }
+
+  updateTimer();
 }
 
 const newBox = ({top, left, title, duration, id}) => {
