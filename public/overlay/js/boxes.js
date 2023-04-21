@@ -13,8 +13,8 @@ window.onload = () => {
   });
 
   // create the initial boxes
-  boxes.forEach(({top, left, title}) => {
-    newBox({top, left, title, duration: null});
+  boxes.forEach(({top, left, title, id}) => {
+    newBox({top, left, title, duration: null, id});
   });
 };
 
@@ -31,8 +31,8 @@ const playBell = () => {
   audio.play();
 };
 
-function startTimer(duration, display) {
-  var timer = duration, minutes, seconds;
+function startTimer(durationInMinutes, display) {
+  var timer = durationInMinutes * 60, minutes, seconds; // Convert minutes to seconds
   const interval = setInterval(function () {
     minutes = parseInt(timer / 60, 10);
     seconds = parseInt(timer % 60, 10);
@@ -137,7 +137,9 @@ function draggable(element, initialX, initialY) {
       // delete the box
       element.remove();
       socket.emit('deleteBox', { id: element.id })
+      return;
     }
+    socket.emit('moveBox', { left: elementX, top: elementY, id: element.id });
   });
 
   // need to attach to the entire document
@@ -149,7 +151,16 @@ function draggable(element, initialX, initialY) {
 
     var deltaX = event.clientX - mouseX;
     var deltaY = event.clientY - mouseY;
-    element.style.left = Math.max(elementX + deltaX, 0) + 'px';
-    element.style.top = Math.max(elementY + deltaY, 0) + 'px';
+
+    const boxData = {
+      left: Math.max(elementX + deltaX, 0),
+      top: Math.max(elementY + deltaY, 0),
+      id: element.id,
+    };
+
+    element.style.left = boxData.left + 'px';
+    element.style.top = boxData.top + 'px';
+
+    // socket.emit('moveBox', boxData);
   });
 }
