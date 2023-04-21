@@ -51,11 +51,10 @@ function startTimer(durationInMinutes, display) {
   }, 1000);
 }
 
-const newBox = ({top, left, title, duration, id} ) => {
+const newBox = ({top, left, title, duration, id}) => {
   const box = document.createElement('div');
   box.id = id;
   box.classList.add('orb');
-
 
   const para = document.createElement("p");
   para.classList.add('orb-label');
@@ -71,8 +70,12 @@ const newBox = ({top, left, title, duration, id} ) => {
     startTimer(duration, timerDisplay);
   }
 
+  // Set box position and size
   box.style.left = `${left}px`;
-  box.style.top = `${top}px`
+  box.style.top = `${top}px`;
+  box.style.width = '200px'; // Set a fixed width for the box
+
+  // Add box to the document
   document.body.appendChild(box);
   draggable(box, left, top);
 };
